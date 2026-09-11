@@ -3,54 +3,45 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-​
+
 <!-- ============================================================
      nfc4all · قالب البطاقة الرقمية (عربي / فرنسي / إنجليزي)
-     ==========================================================
-     منطقة التعديل 1 : العنوان ومعاينة الواتساب  (تحت مباشرة)
-     منطقة التعديل 2 : معلومات العميل CARD      (أسفل هذا القسم)
-     لا تلمس أي شيء بعد كلمة END OF EDIT ZONE.
      ============================================================ -->
-​
+
 <!-- ▼▼ منطقة التعديل 1 ▼▼ -->
 <title>Tanja Cerame — بطاقة رقمية</title>
 <meta name="description" content="طنجة سيرام · بيع الزليج و الأدوات الصحية بطنجة — تشكيلة واسعة و أثمنة مناسبة.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Tanja Cerame — زليج و أدوات صحية · طنجة">
 <meta property="og:description" content="زليج الأرضية و الحيطان، حمامات و حنفيات بطنجة — WhatsApp، اتصال، البريد و الموقع في بطاقة واحدة.">
-<!-- ضع هنا رابط الصورة كاملاً بعد رفع المجلد على GitHub Pages -->
-<meta property="og:image" content="https://USERNAME.github.io/tanja-cerame/img1.png">
+<meta property="og:image" content="https://USERNAME.github.io/tanja-cerame/cover.png">
 <link rel="icon" href="logo.png">
 <link rel="apple-touch-icon" href="logo.png">
-<!-- سرعة: نحمل أول صورة والشعار فوراً -->
-<link rel="preload" as="image" href="img1.png" fetchpriority="high">
+<!-- سرعة: نحمل الغلاف والشعار فوراً -->
+<link rel="preload" as="image" href="cover.png" fetchpriority="high">
 <link rel="preload" as="image" href="logo.png">
 <!-- ▲▲ نهاية منطقة التعديل 1 ▲▲ -->
-​
+
 <script>
-/* ▼▼ منطقة التعديل 2 — كل معلومات العميل هنا فقط ▼▼
-   • أي حقل لا تريده: اتركه "" وسيختفي تلقائياً من الصفحة.
-   • كل نص مكتوب ثلاث مرات: ar (عربي) · fr (فرنسي) · en (إنجليزي).
-*/
 var CARD = {
-​
+
   /* --- الهوية البصرية --- */
-  accent   : "#C25E12",          // لون العميل (برتقالي مأخوذ من البطاقة المطبوعة)
-  cover    : "cover.png",        // صورة الغلاف (png/jpg) أو فيديو (mp4)
-  coverPoster: "",               // صورة تبان قبل الفيديو — خاوية حيت الغلاف صورة
-  logo     : "logo.png",         // الشعار (مربعة 400×400)
-  logoShape: "square",           // "square" للمحلات · "circle" للأشخاص
-​
+  accent   : "#C25E12",
+  cover    : "cover.png",
+  coverPoster: "",
+  logo     : "logo.png",
+  logoShape: "square",
+
   /* --- الحركة --- */
-  motion   : true,               // true = حركات هادئة · false = بدون أي حركة
-​
+  motion   : true,
+
   /* --- المعرض --- */
-  galleryStyle: "large",         // "large" = صورة كبيرة فكل سطر · "grid" = شبكة مربعات
-​
+  galleryStyle: "large",
+
   /* --- اللغات --- */
-  defaultLang   : "ar",          // "ar" أو "fr" أو "en"
-  autoDetectLang: true,          // true = تفتح بلغة هاتف الزائر
-​
+  defaultLang   : "ar",
+  autoDetectLang: true,
+
   /* --- الاسم والوصف --- */
   name   : { ar:"طنجة سيرام",      fr:"Tanja Cerame", en:"Tanja Cerame" },
   role   : { ar:"بيع الزليج و الصحية", fr:"Vente de carrelages & sanitaire", en:"Tiles & sanitary ware" },
@@ -60,12 +51,12 @@ var CARD = {
     fr:"Tanja Cerame est spécialisée dans la vente de carrelages et de sanitaire à Tanger. Un large choix de carrelages sol et mur, salles de bains, robinetterie et matériaux de pose — qualité garantie au meilleur prix, avec un conseil technique pour bien choisir pour votre chantier. Direction : Youness Bouassab.",
     en:"Tanja Cerame specialises in tiles and sanitary ware in Tangier. A wide selection of floor and wall tiles, bathrooms, taps and installation materials — guaranteed quality at the best price, with technical advice to choose the right products for your project. Managed by Youness Bouassab."
   },
-​
-  /* --- أزرار التواصل (اتركها "" لإخفائها) --- */
+
+  /* --- أزرار التواصل --- */
   phone      : "+212671545530",
-  phone2     : "+212603908077",             // الرقم الثاني
+  phone2     : "+212603908077",
   phone2Label: { ar:"اتصال 2", fr:"Appeler 2", en:"Call 2" },
-  whatsapp   : "212671545530",              // بدون + وبدون أصفار
+  whatsapp   : "212671545530",
   whatsappMsg: {
     ar:"السلام، بغيت معلومات على الزليج و الأدوات الصحية.",
     fr:"Bonjour, je souhaite des informations sur les carrelages et le sanitaire.",
@@ -76,16 +67,13 @@ var CARD = {
   instagram : "",
   threads   : "",
   tiktok    : "",
-  review    : "",   // رابط تقييم Google — ضعه هنا إذا توفر
+  review    : "",
   email     : "tanjacerame@gmail.com",
   website   : "",
-​
-  /* --- روابط إضافية اختيارية (كاطالوغ، حجز موعد…) --- */
-  extraLinks: [
-    // { icon:"globe", url:"https://…", label:{ ar:"كاطالوغ", fr:"Catalogue", en:"Catalogue" } }
-  ],
-​
-  /* --- الخدمات (بدون أثمنة) --- */
+
+  extraLinks: [],
+
+  /* --- الخدمات --- */
   services: [
     { label:{ ar:"زليج الأرضية و الحيطان",        fr:"Carrelage sol & mur",            en:"Floor & wall tiles" } },
     { label:{ ar:"أدوات صحية و حمامات",          fr:"Sanitaire & salles de bains",    en:"Sanitary ware & bathrooms" } },
@@ -95,31 +83,24 @@ var CARD = {
     { label:{ ar:"زليج المطبخ و الواجهات",        fr:"Cuisine & façades",              en:"Kitchen & façade tiles" } },
     { label:{ ar:"نصيحة تقنية و توصيل",           fr:"Conseil technique & livraison",  en:"Technical advice & delivery" } }
   ],
-​
-  /* --- معرض الأعمال — الملفات حدا index.html مباشرة --- */
+
+  /* --- معرض الأعمال --- */
   gallery: [ "img1.png", "img2.png", "img3.png", "img4.png" ],
-​
+
   /* --- أوقات العمل --- */
-  hours: [
-    // فارغة الآن → يظهر العنوان فقط. لإضافتها:
-    // { time:"09:00 – 20:00", label:{ ar:"الاثنين – السبت", fr:"Lundi – Samedi", en:"Mon – Sat" } },
-    // { time:"10:00 – 14:00", label:{ ar:"الأحد",           fr:"Dimanche",       en:"Sunday" } }
-  ],
+  hours: [],
   address: {
     ar:"لوط الصفيف، زنقة ابن الطيب العلمي رقم 27 — 90000 طنجة، المغرب",
     fr:"Lot Safif, Rue Ibne Taib Alami N° 27 — 90000 Tanger, Maroc",
     en:"Lot Safif, Rue Ibne Taib Alami No. 27 — 90000 Tangier, Morocco"
   },
-​
-  /* --- بطاقة جهة الاتصال التي تُحفظ في الهاتف --- */
+
   vcard: { firstName:"Youness", lastName:"Bouassab", org:"Tanja Cerame", title:"Gérant", city:"Tanger", country:"Maroc" },
-​
-  /* --- توقيعك أنت (لا تغيره) --- */
+
   brand: { name:"Tap Nfc", url:"https://www.instagram.com/nfc.4all" }
 };
-/* ▲▲ نهاية منطقة التعديل 2 — END OF EDIT ZONE ▲▲ */
 </script>
-​
+
 <style>
 *,::before,::after{box-sizing:border-box}
 html,body{margin:0;padding:0}
@@ -156,8 +137,7 @@ body{
 img{max-width:100%}
 a{color:inherit}
 :focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:6px}
-​
-/* ---- الغلاف ومبدّل اللغة ---- */
+
 .cover{position:relative;aspect-ratio:16/8;background:var(--soft2);overflow:hidden}
 .cover>img,.cover>video{width:100%;height:100%;object-fit:cover;display:block}
 .cover>video{background:#000}
@@ -167,8 +147,7 @@ img.imgfail{opacity:0}
 .langs{position:absolute;top:12px;inset-inline-end:12px;display:flex;gap:2px;padding:4px;border-radius:999px;background:rgba(12,12,12,.55);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);z-index:3}
 .langs button{min-width:48px;height:40px;border:0;border-radius:999px;background:transparent;color:#fff;font:600 14px/1 inherit;cursor:pointer;padding:0;transition:background .25s,color .25s}
 .langs button[aria-pressed="true"]{background:#fff;color:#111}
-​
-/* ---- الرأس ---- */
+
 .head{padding:0 20px 4px;text-align:center;position:relative;z-index:2}
 .avatar{width:96px;height:96px;object-fit:cover;display:block;margin:-52px auto 14px;border:4px solid var(--surface);background:var(--soft2);box-shadow:var(--shadow);border-radius:22px}
 .avatar.circle{border-radius:50%}
@@ -176,8 +155,7 @@ img.imgfail{opacity:0}
 .head h1{margin:0;font-size:23px;line-height:1.25;font-weight:700;letter-spacing:-.01em}
 .head .role{margin:6px 0 0;font-size:15px;font-weight:600;color:var(--accent)}
 .head .tag{margin:4px 0 0;font-size:14.5px;color:var(--muted)}
-​
-/* ---- الأزرار ---- */
+
 .cta{padding:20px 20px 0}
 .btn{position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:54px;padding:0 16px;border:0;border-radius:12px;background:var(--accent);color:#fff;font:600 16px/1 inherit;text-decoration:none;cursor:pointer;font-family:inherit;box-shadow:var(--btn-shadow);transition:transform .18s ease}
 .btn svg{width:21px;height:21px;flex:0 0 21px}
@@ -188,8 +166,7 @@ img.imgfail{opacity:0}
 .action .lbl{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .action:active{transform:scale(.98)}
 .action:last-child:nth-child(odd){grid-column:1 / -1;justify-content:center}
-​
-/* ---- ألوان المنصات الحقيقية على الأزرار ---- */
+
 .action.brand{color:#fff;border-color:transparent;box-shadow:var(--btn-shadow);text-shadow:0 1px 1px rgba(0,0,0,.14)}
 .action.brand svg{color:#fff}
 .action.wa{background:linear-gradient(135deg,#31D36B 0%,#25A75B 55%,#0F7C46 100%)}
@@ -202,8 +179,7 @@ img.imgfail{opacity:0}
 .action.tel{background:linear-gradient(135deg,rgba(255,255,255,.16),rgba(0,0,0,.16)),var(--accent)}
 .action.mail{background:linear-gradient(135deg,#6B7280 0%,#4B5563 55%,#374151 100%)}
 .action.web{background:linear-gradient(135deg,#475569 0%,#334155 55%,#1E293B 100%)}
-​
-/* ---- الأقسام ---- */
+
 .sec{padding:26px 20px 0}
 .sec h2{margin:0 0 12px;font-size:13px;font-weight:700;color:var(--muted)}
 html[dir="ltr"] .sec h2{letter-spacing:.09em;text-transform:uppercase}
@@ -218,7 +194,6 @@ html[dir="ltr"] .sec h2{letter-spacing:.09em;text-transform:uppercase}
 .panel .t{font-weight:600;white-space:nowrap;font-variant-numeric:tabular-nums}
 .addr{display:flex;align-items:flex-start;gap:10px;margin-top:12px;font-size:15px;color:var(--muted);text-decoration:none}
 .addr svg{width:19px;height:19px;flex:0 0 19px;color:var(--accent);margin-top:2px}
-/* معرض بصور كبيرة — صورة واحدة في كل صف */
 .gallery{display:grid;grid-template-columns:1fr;gap:16px}
 .gallery button{padding:0;border:0;background:var(--soft2);border-radius:16px;overflow:hidden;cursor:pointer;display:block;width:100%;box-shadow:var(--btn-shadow);transition:transform .25s ease;-webkit-tap-highlight-color:transparent}
 .gallery button:active{transform:scale(.985)}
@@ -228,56 +203,45 @@ html[dir="ltr"] .sec h2{letter-spacing:.09em;text-transform:uppercase}
 .gallery.grid button{aspect-ratio:1;border-radius:10px;box-shadow:none;min-height:0}
 .gallery.grid img{height:100%;object-fit:cover}
 .gcount{margin:-2px 0 12px;font-size:13.5px;color:var(--muted)}
-​
-/* ---- المشاركة والتذييل ---- */
+
 .share{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;min-height:50px;margin-top:8px;border:1px solid var(--border);border-radius:12px;background:transparent;color:var(--text);font:600 15px/1 inherit;cursor:pointer;font-family:inherit;transition:transform .18s ease}
 .share:active{transform:scale(.985)}
 .share svg{width:19px;height:19px}
 .foot{padding:26px 20px 34px;text-align:center;font-size:13px;color:var(--muted)}
 .foot a{color:var(--muted);font-weight:700;text-decoration:none;border-bottom:1px solid var(--border)}
-​
-/* ---- التنبيه والمعرض المكبّر ---- */
+
 .toast{position:fixed;inset-inline:0;bottom:24px;margin:0 auto;width:max-content;max-width:88%;padding:12px 20px;border-radius:999px;background:#2C2C2B;color:#fff;font-size:14.5px;font-weight:600;opacity:0;transform:translateY(10px);transition:opacity .2s,transform .2s;pointer-events:none;z-index:60}
 .toast.on{opacity:1;transform:translateY(0)}
 .lb{position:fixed;inset:0;background:rgba(0,0,0,.92);display:none;align-items:center;justify-content:center;z-index:50;padding:16px}
 .lb.on{display:flex}
 .lb img{max-width:94vw;max-height:84vh;border-radius:12px}
 .lb .x{position:absolute;top:14px;inset-inline-end:14px;width:44px;height:44px;border:0;border-radius:50%;background:rgba(255,255,255,.16);color:#fff;font-size:24px;line-height:1;cursor:pointer}
-​
-/* ============================================================
-   الحركات — هادئة ومريحة للعين
-   ============================================================ */
+
 @keyframes riseIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
 @keyframes popIn{0%{opacity:0;transform:scale(.84)}62%{opacity:1;transform:scale(1.035)}100%{opacity:1;transform:scale(1)}}
 @keyframes coverIn{from{transform:scale(1.09)}to{transform:scale(1)}}
 @keyframes ringPulse{0%{box-shadow:0 0 0 0 rgba(37,211,102,.42)}70%{box-shadow:0 0 0 15px rgba(37,211,102,0)}100%{box-shadow:0 0 0 0 rgba(37,211,102,0)}}
 @keyframes sheen{0%{transform:translateX(-150%) skewX(-18deg)}100%{transform:translateX(320%) skewX(-18deg)}}
 @keyframes fadeSwap{from{opacity:0}to{opacity:1}}
-​
+
 .anim .rise{opacity:0;animation:riseIn .62s cubic-bezier(.22,.68,.32,1) forwards;animation-delay:var(--d,0ms)}
-/* أمان: إن لم تعمل الحركة لأي سبب، يبقى المحتوى مرئياً دائماً */
 .anim.done .rise{opacity:1!important;animation:none!important;transform:none!important}
 .anim .avatar{animation:popIn .74s cubic-bezier(.2,.8,.25,1) .10s both}
 .anim .cover>img,.anim .cover>video{animation:coverIn 1.5s cubic-bezier(.2,.7,.3,1) both}
-​
-/* نبضة خفيفة جداً على زر الواتساب لجذب النظر بلطف */
+
 .anim .action.wa::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;animation:ringPulse 4.2s ease-out 2s infinite}
-/* لمعة ناعمة تمر على الزر الرئيسي كل بضع ثوانٍ */
 .anim .btn::after{content:"";position:absolute;top:0;bottom:0;inset-inline-start:0;width:34%;pointer-events:none;background:linear-gradient(90deg,transparent,rgba(255,255,255,.34),transparent);transform:translateX(-150%) skewX(-18deg);animation:sheen 6s ease-in-out 2.4s infinite}
-​
-/* ظهور تدريجي للأقسام أثناء التمرير */
+
 .anim .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s cubic-bezier(.22,.68,.32,1)}
 .anim .reveal.in{opacity:1;transform:none}
-​
-/* ظهور أنعم وأطول لصور المعرض مع تقريب خفيف يهدأ تدريجياً */
+
 .anim .gallery .reveal{opacity:0;transform:translateY(34px) scale(.965);transition:opacity .85s ease,transform .95s cubic-bezier(.22,.68,.32,1)}
 .anim .gallery .reveal.in{opacity:1;transform:none}
 .anim .gallery .reveal img{transform:scale(1.08);transition:transform 1.35s cubic-bezier(.2,.7,.3,1)}
 .anim .gallery .reveal.in img{transform:none}
-​
-/* تبديل اللغة بانتقال ناعم بدل قفزة */
+
 .swap{animation:fadeSwap .34s ease both}
-​
+
 @media (prefers-reduced-motion: reduce){
   *{transition:none!important}
   .anim .rise,.anim .avatar,.anim .cover>img,.anim .cover>video,.swap{animation:none!important;opacity:1!important;transform:none!important}
@@ -291,7 +255,7 @@ html[dir="ltr"] .sec h2{letter-spacing:.09em;text-transform:uppercase}
 <main class="card" id="card"></main>
 <div class="lb" id="lb"><button class="x" id="lbx" aria-label="Close">×</button><img id="lbi" alt=""></div>
 <div class="toast" id="toast" role="status"></div>
-​
+
 <noscript>
   <div style="max-width:480px;margin:0 auto;padding:24px;font-family:sans-serif">
     <h1>Tanja Cerame</h1>
@@ -301,13 +265,11 @@ html[dir="ltr"] .sec h2{letter-spacing:.09em;text-transform:uppercase}
     <p><a href="mailto:tanjacerame@gmail.com">tanjacerame@gmail.com</a></p>
   </div>
 </noscript>
-​
+
 <script>
-/* =======  المحرّك — لا تعدّل تحت هذا السطر  ======= */
 (function(){
 "use strict";
-​
-/* نصوص الواجهة بالثلاث لغات */
+
 var UI = {
   ar:{ save:"حفظ جهة الاتصال", wa:"واتساب", call:"اتصال", call2:"اتصال 2", maps:"الموقع", ig:"إنستغرام", fb:"فيسبوك", tt:"تيك توك", th:"Threads", location:"العنوان",
        review:"قيّمنا على Google", mail:"البريد", web:"الموقع الإلكتروني",
@@ -322,7 +284,7 @@ var UI = {
        about:"About", services:"Our services", work:"Our work", hours:"Opening hours",
        share:"Share card", copied:"Link copied ✓", by:"Digital card by" }
 };
-​
+
 var S="stroke='currentColor' fill='none' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'";
 var ICON = {
   save:"<svg viewBox='0 0 24 24' aria-hidden='true'><g "+S+"><path d='M16 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2'/><circle cx='9.5' cy='7' r='4'/><path d='M19 8v6M22 11h-6'/></g></svg>",
@@ -339,15 +301,15 @@ var ICON = {
   clock:"<svg viewBox='0 0 24 24' aria-hidden='true'><g "+S+"><circle cx='12' cy='12' r='9.2'/><path d='M12 6.8V12l3.4 2'/></g></svg>",
   share:"<svg viewBox='0 0 24 24' aria-hidden='true'><g "+S+"><path d='M4 12.5V19a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-6.5'/><path d='M15.5 6 12 2.6 8.5 6'/><path d='M12 3v12'/></g></svg>"
 };
-​
+
 var C = window.CARD, LANGS = ["ar","fr","en"], LABELS = {ar:"ع", fr:"FR", en:"EN"};
 var lang = pickLang();
 var firstPaint = true;
 var MOTION = (C.motion !== false);
 var io = null;
-​
+
 function pickLang(){
-  var q = (location.search.match(/[?&]lang=(ar|fr|en)/i) || [])[1];      // رابط مباشر بلغة محددة: …/?lang=fr
+  var q = (location.search.match(/[?&]lang=(ar|fr|en)/i) || [])[1];
   if(q) return q.toLowerCase();
   try{ var s = localStorage.getItem("nfc4all-lang"); if(s && UI[s]) return s; }catch(e){}
   if(C.autoDetectLang !== false){
@@ -358,23 +320,17 @@ function pickLang(){
 }
 function t(v){ if(!v) return ""; return typeof v === "string" ? v : (v[lang] || v.ar || v.fr || v.en || ""); }
 function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
-​
-/* مساعدات الحركة: تضيف كلاس التأثير مع تأخير متسلسل */
+
 function riseAttr(delay){ return MOTION ? ' class="rise" style="--d:'+delay+'ms"' : ''; }
 function riseOn(cls, delay){ return MOTION ? ' class="'+cls+' rise" style="--d:'+delay+'ms"' : ' class="'+cls+'"'; }
 function revealOn(cls){ return MOTION ? ' class="'+cls+' reveal"' : ' class="'+cls+'"'; }
-/* يسمح بأسماء ملفات فيها مسافات أو أقواس أو حروف عربية */
 function srcU(p){ return esc(encodeURI(String(p))); }
-​
-/* هل الغلاف فيديو؟ */
+
 function isVideoFile(p){ return /\.(mp4|webm|mov|m4v|ogv)(\?.*)?$/i.test(String(p||"")); }
-​
-/* ---- إصلاح مسارات الصور تلقائياً ----
-   المتصفح يجرب بالترتيب: نفس المجلد · img/ · images/ · تغيير jpeg/jpg · حروف كبيرة
-   فلو كانت الصور فمجلد img/ أو جنب index.html — فالحالتين كيخدمو */
+
 var IMGALTS = [], imgFails = 0, failTimer = null;
 var DEBUG = /[?&]debug=1/.test(location.search);
-​
+
 function altPaths(p){
   var s = String(p || ""), out = [];
   function add(x){ if(x && out.indexOf(x) < 0) out.push(x); }
@@ -389,14 +345,13 @@ function altPaths(p){
   });
   return out;
 }
-​
-/* يبني وسم <img> مع محاولات احتياطية */
+
 function imgTag(p, attrs){
   var alts = altPaths(p);
   var id = IMGALTS.push(alts) - 1;
-  return '<img src="' + esc(encodeURI(alts[0])) + '" data-alts="' + id + '" data-step="0" onerror="__imgFix(this)" ' + (attrs || "") + '>';
+  return '<img src="' + esc(encodeURI(alts[0])) + '" data-alts="' + id + '" data-step="0" onerror="__imgFix(this)" ' + (attrs || '') + '>';
 }
-​
+
 window.__imgFix = function(el){
   var alts = IMGALTS[+el.getAttribute("data-alts")] || [];
   var step = (+el.getAttribute("data-step") || 0) + 1;
@@ -416,14 +371,13 @@ window.__imgFix = function(el){
     failTimer = setTimeout(function(){ toast(imgFails + " ملف ما تلقاش — شوف Console"); }, 900);
   }
 };
-​
+
 function render(){
   var u = UI[lang], html = "";
   document.documentElement.lang = lang;
   document.documentElement.dir  = (lang === "ar") ? "rtl" : "ltr";
   document.title = t(C.name) + " — " + t(C.role);
-​
-  /* الغلاف + مبدّل اللغة */
+
   html += '<div class="cover">';
   if(C.cover){
     if(isVideoFile(C.cover)){
@@ -438,8 +392,7 @@ function render(){
     html += '<button type="button" data-lang="'+l+'" aria-pressed="'+(l===lang)+'" lang="'+l+'">'+LABELS[l]+'</button>';
   });
   html += '</div></div>';
-​
-  /* الرأس */
+
   html += '<div class="head">';
   var shape = C.logoShape === "circle" ? " circle" : "";
   if(C.logo) html += imgTag(C.logo, 'class="avatar'+shape+'" alt=""');
@@ -448,11 +401,9 @@ function render(){
   if(t(C.role))    html += '<p'+riseOn("role",220)+'>'+esc(t(C.role))+'</p>';
   if(t(C.tagline)) html += '<p'+riseOn("tag",260)+'>'+esc(t(C.tagline))+'</p>';
   html += '</div>';
-​
-  /* الزر الرئيسي */
+
   html += '<div class="cta"><button'+riseOn("btn",320)+' id="vcf" type="button">'+ICON.save+'<span>'+esc(u.save)+'</span></button></div>';
-​
-  /* شبكة الأزرار — كل منصة بلونها */
+
   var acts = [];
   if(C.whatsapp) acts.push({i:"wa",  c:"wa",   l:u.wa,     h:"https://wa.me/"+C.whatsapp+(t(C.whatsappMsg)?"?text="+encodeURIComponent(t(C.whatsappMsg)):""), x:1});
   if(C.phone)    acts.push({i:"call",c:"tel",  l:u.call,   h:"tel:"+C.phone});
@@ -466,7 +417,7 @@ function render(){
   if(C.website)  acts.push({i:"globe",c:"web", l:u.web,    h:C.website, x:1});
   (C.extraLinks||[]).forEach(function(e){ if(e && e.url) acts.push({i:e.icon||"globe", c:"web", l:t(e.label), h:e.url, x:1}); });
   if(C.review)   acts.push({i:"star",c:"star", l:u.review, h:C.review, x:1});
-​
+
   if(acts.length){
     html += '<div class="actions">';
     acts.forEach(function(a, idx){
@@ -476,11 +427,9 @@ function render(){
     });
     html += '</div>';
   }
-​
-  /* نبذة */
+
   if(t(C.about)) html += '<section'+revealOn("sec")+'><h2>'+esc(u.about)+'</h2><p class="about">'+esc(t(C.about))+'</p></section>';
-​
-  /* الخدمات */
+
   if(C.services && C.services.length){
     html += '<section'+revealOn("sec")+'><h2>'+esc(u.services)+'</h2><div class="list">';
     C.services.forEach(function(s){
@@ -488,8 +437,7 @@ function render(){
     });
     html += '</div></section>';
   }
-​
-  /* المعرض */
+
   if(C.gallery && C.gallery.length){
     var gstyle = (C.galleryStyle === "grid") ? "grid" : "large";
     html += '<section'+revealOn("sec")+'><h2>'+esc(u.work)+'</h2><div class="gallery '+gstyle+'">';
@@ -500,8 +448,7 @@ function render(){
     });
     html += '</div></section>';
   }
-​
-  /* الأوقات + العنوان */
+
   if((C.hours && C.hours.length) || t(C.address)){
     var hasHours = !!(C.hours && C.hours.length);
     html += '<section'+revealOn("sec")+'><h2>'+esc(hasHours ? u.hours : u.location)+'</h2>';
@@ -518,33 +465,28 @@ function render(){
     }
     html += '</section>';
   }
-​
-  /* مشاركة + تذييل */
+
   html += '<div'+revealOn("sec")+'><button class="share" id="shr" type="button">'+ICON.share+'<span>'+esc(u.share)+'</span></button></div>';
   html += '<div'+revealOn("foot")+'>'+esc(u.by)+' <a href="'+esc(C.brand.url)+'" target="_blank" rel="noopener">'+esc(C.brand.name)+'</a></div>';
-​
+
   var cardEl = document.getElementById("card");
   cardEl.className = "card" + (MOTION ? " anim" : "");
   cardEl.innerHTML = html;
-​
+
   if(MOTION && !firstPaint){
     cardEl.classList.add("swap");
     setTimeout(function(){ cardEl.classList.remove("swap"); }, 400);
   }
   firstPaint = false;
-​
+
   if(MOTION){
     cardEl.classList.remove("done");
     setTimeout(function(){ cardEl.classList.add("done"); }, 2800);
   }
-​
+
   bind();
   observeReveals();
-​
-  /* ---- فيديو الغلاف — تحميل متأخر باش الصفحة تفتح بزربة ----
-     1. الصورة (poster) كتبان فوراً
-     2. الفيديو كيبدا يتحمل غير منين تكمل الصفحة
-     3. فالشبكة الضعيفة (2G / Save-Data) كيتسنا و كتبقى غير الصورة */
+
   var vid = cardEl.querySelector(".cover video");
   if(vid){
     vid.addEventListener("error", function(){
@@ -568,8 +510,7 @@ function render(){
     }
   }
 }
-​
-/* ظهور الأقسام تدريجياً عند التمرير */
+
 function observeReveals(){
   var items = document.querySelectorAll(".reveal");
   if(!MOTION || !items.length) return;
@@ -585,7 +526,7 @@ function observeReveals(){
   }, { rootMargin: "0px 0px -8% 0px", threshold: 0.06 });
   items.forEach(function(el){ io.observe(el); });
 }
-​
+
 function bind(){
   document.querySelectorAll(".langs button").forEach(function(b){
     b.addEventListener("click", function(){
@@ -600,8 +541,7 @@ function bind(){
   document.getElementById("vcf").addEventListener("click", saveContact);
   document.getElementById("shr").addEventListener("click", shareCard);
 }
-​
-/* --- حفظ جهة الاتصال (ملف vCard) --- */
+
 function saveContact(){
   var v = C.vcard || {}, fn = t(C.name);
   var lines = [];
@@ -626,7 +566,7 @@ function saveContact(){
   lines.push("URL;TYPE=card:" + location.href);
   lines.push("NOTE:" + t(C.role));
   lines.push("END:VCARD");
-​
+
   var blob = new Blob([lines.join("\r\n")], { type: "text/vcard;charset=utf-8" });
   var a = document.createElement("a");
   a.href = URL.createObjectURL(blob);
@@ -635,29 +575,25 @@ function saveContact(){
   a.click();
   setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 1200);
 }
-​
-/* --- مشاركة --- */
+
 function shareCard(){
   var d = { title: t(C.name), text: t(C.role), url: location.href };
   if(navigator.share){ navigator.share(d).catch(function(){}); return; }
   if(navigator.clipboard){ navigator.clipboard.writeText(location.href).then(function(){ toast(UI[lang].copied); }); }
 }
-​
-/* --- المعرض المكبّر --- */
+
 var lb = document.getElementById("lb"), lbi = document.getElementById("lbi");
 function openLb(src){ lbi.src = src; lb.classList.add("on"); }
 function closeLb(){ lb.classList.remove("on"); lbi.src = ""; }
 lb.addEventListener("click", closeLb);
 document.addEventListener("keydown", function(e){ if(e.key === "Escape") closeLb(); });
-​
-/* --- تنبيه --- */
+
 var tEl = document.getElementById("toast"), tTimer;
 function toast(msg){
   tEl.textContent = msg; tEl.classList.add("on");
   clearTimeout(tTimer); tTimer = setTimeout(function(){ tEl.classList.remove("on"); }, 2200);
 }
-​
-/* --- إقلاع --- */
+
 if(C.accent){
   document.documentElement.style.setProperty("--accent", C.accent);
   var m = document.createElement("meta"); m.name = "theme-color"; m.content = C.accent;
@@ -668,4 +604,3 @@ render();
 </script>
 </body>
 </html>
-​
