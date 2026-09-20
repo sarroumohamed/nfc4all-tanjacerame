@@ -290,4 +290,310 @@ var ICON = {
   th:"<svg viewBox='0 0 24 24' aria-hidden='true'><g "+S+" stroke-width='2'><path d='M12.4 21.4c-5.5 0-9-3.4-9-9.4 0-6 3.6-9.4 9.1-9.4 3.6 0 6.2 1.4 7.6 4'/><path d='M8.6 9.3c.6-1.6 2-2.6 3.8-2.6 2.7 0 4.3 1.7 4.3 4.6v4.4'/><path d='M16.7 13.7c0 2.5-1.7 4-4 4-1.8 0-3-1-3-2.4 0-1.6 1.4-2.4 3.5-2.5l3.5-.2'/></g></svg>",
   star:"<svg viewBox='0 0 24 24' aria-hidden='true'><path fill='currentColor' d='M12 2.6l2.75 5.65 6.25.9-4.5 4.4 1.05 6.2L12 16.83 6.45 19.75l1.05-6.2L3 9.15l6.25-.9z'/></svg>",
   mail:"<svg viewBox='0 0 24 24' aria-hidden='true'><g "+S+"><rect x='2.8' y='4.6' width='18.4' height='14.8' rx='2.6'/><path d='M3.4 7.2 12 13l8.6-5.8'/></g></svg>",
-  globe:"<svg viewBox='0
+  globe:"<svg viewBox='0 0 24 24' aria-hidden='true'><g "+S+"><circle cx='12' cy='12' r='9.2'/><path d='M2.8 12h18.4'/><path d='M12 2.8a15 15 0 0 1 0 18.4 15 15 0 0 1 0-18.4z'/></g></svg>",
+  clock:"<svg viewBox='0 0 24 24' aria-hidden='true'><g "+S+"><circle cx='12' cy='12' r='9.2'/><path d='M12 6.8V12l3.4 2'/></g></svg>",
+  share:"<svg viewBox='0 0 24 24' aria-hidden='true'><g "+S+"><path d='M4 12.5V19a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-6.5'/><path d='M15.5 6 12 2.6 8.5 6'/><path d='M12 3v12'/></g></svg>"
+};
+
+var C = window.CARD, LANGS = ["ar","fr","en"], LABELS = {ar:"ع", fr:"FR", en:"EN"};
+var lang = pickLang();
+var firstPaint = true;
+var MOTION = (C.motion !== false);
+var io = null;
+
+function pickLang(){
+  var q = (location.search.match(/[?&]lang=(ar|fr|en)/i) || [])[1];
+  if(q) return q.toLowerCase();
+  try{ var s = localStorage.getItem("nfc4all-lang"); if(s && UI[s]) return s; }catch(e){}
+  if(C.autoDetectLang !== false){
+    var n = (navigator.language || "").slice(0,2).toLowerCase();
+    if(UI[n]) return n;
+  }
+  return UI[C.defaultLang] ? C.defaultLang : "ar";
+}
+function t(v){ if(!v) return ""; return typeof v === "string" ? v : (v[lang] || v.ar || v.fr || v.en || ""); }
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+
+function riseAttr(delay){ return MOTION ? ' class="rise" style="--d:'+delay+'ms"' : ''; }
+function riseOn(cls, delay){ return MOTION ? ' class="'+cls+' rise" style="--d:'+delay+'ms"' : ' class="'+cls+'"'; }
+function revealOn(cls){ return MOTION ? ' class="'+cls+' reveal"' : ' class="'+cls+'"'; }
+function srcU(p){ return esc(encodeURI(String(p))); }
+
+function isVideoFile(p){ return /\.(mp4|webm|mov|m4v|ogv)(\?.*)?$/i.test(String(p||"")); }
+
+var IMGALTS = [], imgFails = 0, failTimer = null;
+var DEBUG = /[?&]debug=1/.test(location.search);
+
+function altPaths(p){
+  var s = String(p || ""), out = [];
+  function add(x){ if(x && out.indexOf(x) < 0) out.push(x); }
+  var bare = s.replace(/^(?:\.\/)?(?:img|images|photos|assets)\//i, "");
+  [s, bare, "img/" + bare, "images/" + bare].forEach(function(b){
+    add(b);
+    var m = b.match(/^(.*)\.([A-Za-z0-9]+)$/);
+    if(!m) return;
+    var stem = m[1], ext = m[2].toLowerCase();
+    var swap = { jpeg:["jpg","JPEG","JPG"], jpg:["jpeg","JPG","JPEG"], png:["PNG"], webp:["WEBP"] };
+    (swap[ext] || []).forEach(function(e){ add(stem + "." + e); });
+  });
+  return out;
+}
+
+function imgTag(p, attrs){
+  var alts = altPaths(p);
+  var id = IMGALTS.push(alts) - 1;
+  return '<img src="' + esc(encodeURI(alts[0])) + '" data-alts="' + id + '" data-step="0" onerror="__imgFix(this)" ' + (attrs || '') + '>';
+}
+
+window.__imgFix = function(el){
+  var alts = IMGALTS[+el.getAttribute("data-alts")] || [];
+  var step = (+el.getAttribute("data-step") || 0) + 1;
+  if(step < alts.length){
+    el.setAttribute("data-step", step);
+    el.src = encodeURI(alts[step]);
+    return;
+  }
+  el.removeAttribute("onerror");
+  el.className += " imgfail";
+  var b = el.parentNode;
+  if(b && b.tagName === "BUTTON") b.className += " failed";
+  imgFails++;
+  if(window.console) console.warn("[card] صورة ما تلقاتش / image not found:", alts[0]);
+  if(DEBUG){
+    clearTimeout(failTimer);
+    failTimer = setTimeout(function(){ toast(imgFails + " ملف ما تلقاش — شوف Console"); }, 900);
+  }
+};
+
+function render(){
+  var u = UI[lang], html = "";
+  document.documentElement.lang = lang;
+  document.documentElement.dir  = (lang === "ar") ? "rtl" : "ltr";
+  document.title = t(C.name) + " — " + t(C.role);
+
+  html += '<div class="cover">';
+  if(C.cover){
+    if(isVideoFile(C.cover)){
+      var pos = C.coverPoster ? ' poster="'+srcU(C.coverPoster)+'"' : '';
+      html += '<video'+pos+' data-src="'+srcU(C.cover)+'" muted loop playsinline webkit-playsinline preload="none" disablepictureinpicture></video>';
+    } else {
+      html += imgTag(C.cover, 'alt="" fetchpriority="high"');
+    }
+  }
+  html += '<div class="langs" role="group" aria-label="Language">';
+  LANGS.forEach(function(l){
+    html += '<button type="button" data-lang="'+l+'" aria-pressed="'+(l===lang)+'" lang="'+l+'">'+LABELS[l]+'</button>';
+  });
+  html += '</div></div>';
+
+  html += '<div class="head">';
+  var shape = C.logoShape === "circle" ? " circle" : "";
+  if(C.logo) html += imgTag(C.logo, 'class="avatar'+shape+'" alt=""');
+  else       html += '<div class="avatar mono'+shape+'">'+esc(t(C.name).trim().charAt(0))+'</div>';
+  html += '<h1'+riseAttr(170)+'>'+esc(t(C.name))+'</h1>';
+  if(t(C.role))    html += '<p'+riseOn("role",220)+'>'+esc(t(C.role))+'</p>';
+  if(t(C.tagline)) html += '<p'+riseOn("tag",260)+'>'+esc(t(C.tagline))+'</p>';
+  html += '</div>';
+
+  html += '<div class="cta"><button'+riseOn("btn",320)+' id="vcf" type="button">'+ICON.save+'<span>'+esc(u.save)+'</span></button></div>';
+
+  var acts = [];
+  if(C.whatsapp) acts.push({i:"wa",  c:"wa",   l:u.wa,     h:"https://wa.me/"+C.whatsapp+(t(C.whatsappMsg)?"?text="+encodeURIComponent(t(C.whatsappMsg)):""), x:1});
+  if(C.phone)    acts.push({i:"call",c:"tel",  l:u.call,   h:"tel:"+C.phone});
+  if(C.phone2)   acts.push({i:"call",c:"tel",  l:(t(C.phone2Label)||u.call2), h:"tel:"+C.phone2});
+  if(C.maps)     acts.push({i:"pin", c:"maps", l:u.maps,   h:C.maps, x:1});
+  if(C.facebook) acts.push({i:"fb",  c:"fb",   l:u.fb,     h:C.facebook, x:1});
+  if(C.instagram)acts.push({i:"ig",  c:"ig",   l:u.ig,     h:C.instagram, x:1});
+  if(C.threads)  acts.push({i:"th",  c:"th",   l:u.th,     h:C.threads, x:1});
+  if(C.tiktok)   acts.push({i:"tt",  c:"tt",   l:u.tt,     h:C.tiktok, x:1});
+  if(C.email)    acts.push({i:"mail",c:"mail", l:u.mail,   h:"mailto:"+C.email});
+  if(C.website)  acts.push({i:"globe",c:"web", l:u.web,    h:C.website, x:1});
+  (C.extraLinks||[]).forEach(function(e){ if(e && e.url) acts.push({i:e.icon||"globe", c:"web", l:t(e.label), h:e.url, x:1}); });
+  if(C.review)   acts.push({i:"star",c:"star", l:u.review, h:C.review, x:1});
+
+  if(acts.length){
+    html += '<div class="actions">';
+    acts.forEach(function(a, idx){
+      var cls = "action brand " + a.c + (MOTION ? " rise" : "");
+      var st  = MOTION ? ' style="--d:'+(380 + idx*70)+'ms"' : '';
+      html += '<a class="'+cls+'"'+st+' href="'+esc(a.h)+'"'+(a.x?' target="_blank" rel="noopener"':'')+'>'+ICON[a.i]+'<span class="lbl">'+esc(a.l)+'</span></a>';
+    });
+    html += '</div>';
+  }
+
+  if(t(C.about)) html += '<section'+revealOn("sec")+'><h2>'+esc(u.about)+'</h2><p class="about">'+esc(t(C.about))+'</p></section>';
+
+  if(C.services && C.services.length){
+    html += '<section'+revealOn("sec")+'><h2>'+esc(u.services)+'</h2><div class="list">';
+    C.services.forEach(function(s){
+      html += '<div class="row"><span>'+esc(t(s.label))+'</span></div>';
+    });
+    html += '</div></section>';
+  }
+
+  if(C.gallery && C.gallery.length){
+    var gstyle = (C.galleryStyle === "grid") ? "grid" : "large";
+    html += '<section'+revealOn("sec")+'><h2>'+esc(u.work)+'</h2><div class="gallery '+gstyle+'">';
+    C.gallery.forEach(function(g, i){
+      var gc = MOTION ? ' class="reveal"' : '';
+      var eager = i < 2 ? ' fetchpriority="high"' : ' loading="lazy" fetchpriority="low"';
+      html += '<button type="button"'+gc+' aria-label="'+esc(u.work)+' '+(i+1)+'">'+imgTag(g, 'alt=""'+eager+' decoding="async"')+'</button>';
+    });
+    html += '</div></section>';
+  }
+
+  if((C.hours && C.hours.length) || t(C.address)){
+    var hasHours = !!(C.hours && C.hours.length);
+    html += '<section'+revealOn("sec")+'><h2>'+esc(hasHours ? u.hours : u.location)+'</h2>';
+    if(C.hours && C.hours.length){
+      html += '<div class="panel">';
+      C.hours.forEach(function(h){
+        html += '<div class="row"><span>'+esc(t(h.label))+'</span><span class="t" dir="ltr">'+esc(h.time)+'</span></div>';
+      });
+      html += '</div>';
+    }
+    if(t(C.address)){
+      var ah = C.maps ? '<a class="addr" href="'+esc(C.maps)+'" target="_blank" rel="noopener">' : '<div class="addr">';
+      html += ah + ICON.pin + '<span>'+esc(t(C.address))+'</span>' + (C.maps ? '</a>' : '</div>');
+    }
+    html += '</section>';
+  }
+
+  html += '<div'+revealOn("sec")+'><button class="share" id="shr" type="button">'+ICON.share+'<span>'+esc(u.share)+'</span></button></div>';
+  html += '<div'+revealOn("foot")+'>'+esc(u.by)+' <a href="'+esc(C.brand.url)+'" target="_blank" rel="noopener">'+esc(C.brand.name)+'</a></div>';
+
+  var cardEl = document.getElementById("card");
+  cardEl.className = "card" + (MOTION ? " anim" : "");
+  cardEl.innerHTML = html;
+
+  if(MOTION && !firstPaint){
+    cardEl.classList.add("swap");
+    setTimeout(function(){ cardEl.classList.remove("swap"); }, 400);
+  }
+  firstPaint = false;
+
+  if(MOTION){
+    cardEl.classList.remove("done");
+    setTimeout(function(){ cardEl.classList.add("done"); }, 2800);
+  }
+
+  bind();
+  observeReveals();
+
+  var vid = cardEl.querySelector(".cover video");
+  if(vid){
+    vid.addEventListener("error", function(){
+      if(window.console) console.warn("[card] فيديو الغلاف ما تلقاش:", C.cover);
+      if(!C.coverPoster) vid.parentNode.className += " empty";
+    });
+    var cn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    var slow = !!(cn && (cn.saveData === true || /(^|-)(2g|slow-2g)$/i.test(cn.effectiveType || "")));
+    if(slow){
+      if(window.console) console.info("[card] شبكة ضعيفة — الفيديو ما تحملش");
+    } else {
+      var startVideo = function(){
+        if(vid.getAttribute("src")) return;
+        vid.setAttribute("src", vid.getAttribute("data-src"));
+        vid.setAttribute("autoplay", "");
+        var pr = vid.play && vid.play();
+        if(pr && pr.catch) pr.catch(function(){});
+      };
+      if(document.readyState === "complete") setTimeout(startVideo, 80);
+      else window.addEventListener("load", function(){ setTimeout(startVideo, 80); });
+    }
+  }
+}
+
+function observeReveals(){
+  var items = document.querySelectorAll(".reveal");
+  if(!MOTION || !items.length) return;
+  if(!("IntersectionObserver" in window)){
+    items.forEach(function(el){ el.classList.add("in"); });
+    return;
+  }
+  if(io) io.disconnect();
+  io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting){ en.target.classList.add("in"); io.unobserve(en.target); }
+    });
+  }, { rootMargin: "0px 0px -8% 0px", threshold: 0.06 });
+  items.forEach(function(el){ io.observe(el); });
+}
+
+function bind(){
+  document.querySelectorAll(".langs button").forEach(function(b){
+    b.addEventListener("click", function(){
+      lang = b.getAttribute("data-lang");
+      try{ localStorage.setItem("nfc4all-lang", lang); }catch(e){}
+      render(); window.scrollTo(0,0);
+    });
+  });
+  document.querySelectorAll(".gallery button").forEach(function(b){
+    b.addEventListener("click", function(){ openLb((b.querySelector("img")||{}).currentSrc || (b.querySelector("img")||{}).src); });
+  });
+  document.getElementById("vcf").addEventListener("click", saveContact);
+  document.getElementById("shr").addEventListener("click", shareCard);
+}
+
+function saveContact(){
+  var v = C.vcard || {}, fn = t(C.name);
+  var lines = [];
+  lines.push("BEGIN:VCARD");
+  lines.push("VERSION:3.0");
+  var lastName = v.lastName || fn;
+  var firstName = v.firstName || "";
+  lines.push("N:" + lastName + ";" + firstName + ";;;");
+  var fullName = (firstName ? firstName + " " : "") + lastName;
+  lines.push("FN:" + fullName);
+  if (v.org) lines.push("ORG:" + v.org);
+  if (v.title) lines.push("TITLE:" + v.title);
+  if (C.phone) lines.push("TEL;TYPE=CELL:" + C.phone);
+  if (C.email) lines.push("EMAIL;TYPE=INTERNET:" + C.email);
+  if (C.website) lines.push("URL:" + C.website);
+  var addr = t(C.address) || "";
+  var city = v.city || "";
+  var country = v.country || "";
+  if (addr || city || country) {
+    lines.push("ADR;TYPE=WORK:;;" + addr + ";" + city + ";;;" + country);
+  }
+  lines.push("URL;TYPE=card:" + location.href);
+  lines.push("NOTE:" + t(C.role));
+  lines.push("END:VCARD");
+
+  var blob = new Blob([lines.join("\r\n")], { type: "text/vcard;charset=utf-8" });
+  var a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = (fullName.replace(/[^\w\u0600-\u06FF -]/g, "") || "contact") + ".vcf";
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 1200);
+}
+
+function shareCard(){
+  var d = { title: t(C.name), text: t(C.role), url: location.href };
+  if(navigator.share){ navigator.share(d).catch(function(){}); return; }
+  if(navigator.clipboard){ navigator.clipboard.writeText(location.href).then(function(){ toast(UI[lang].copied); }); }
+}
+
+var lb = document.getElementById("lb"), lbi = document.getElementById("lbi");
+function openLb(src){ lbi.src = src; lb.classList.add("on"); }
+function closeLb(){ lb.classList.remove("on"); lbi.src = ""; }
+lb.addEventListener("click", closeLb);
+document.addEventListener("keydown", function(e){ if(e.key === "Escape") closeLb(); });
+
+var tEl = document.getElementById("toast"), tTimer;
+function toast(msg){
+  tEl.textContent = msg; tEl.classList.add("on");
+  clearTimeout(tTimer); tTimer = setTimeout(function(){ tEl.classList.remove("on"); }, 2200);
+}
+
+if(C.accent){
+  document.documentElement.style.setProperty("--accent", C.accent);
+  var m = document.createElement("meta"); m.name = "theme-color"; m.content = C.accent;
+  document.head.appendChild(m);
+}
+render();
+})();
+</script>
+</body>
+</html>
